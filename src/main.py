@@ -1,18 +1,20 @@
 from flask import Flask
+from flask_restful import Api
 
+from mappers import ImageMapper
 from resources import CameraResource
 from utils import Camera
 
 app = Flask(__name__)
+api = Api(app)
 
 camera = Camera()
 
-
-@app.route("/capture")
-def capture():
-    # return "<h1>Hello, World!</h1>", {"Content-Type": "text/html"}
-    return CameraResource(camera)
-
+api.add_resource(
+    CameraResource,
+    "/api/capture",
+    resource_class_kwargs={"camera": camera, "image_mapper": ImageMapper()},
+)
 
 if __name__ == "__main__":
     app.run()

@@ -10,13 +10,16 @@ class Camera:
         self._camera.release()
 
     def capture(self):
+        frame, is_success = None, False
         if not self._camera.isOpened():
             print("Cannot open camera")
-            return
+            return frame, is_success
 
         ret, frame = self._camera.read()
 
         if not ret:
             print("Can't receive frame. Exiting...")
-            return
-        return frame
+            return frame, is_success
+
+        is_success = True
+        return frame, is_success

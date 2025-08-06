@@ -1,25 +1,27 @@
+import base64
 import cv2
 
-from flask import Response
+from flask_restful import Resource
 
 
-class CameraResource(Response):
-    def __init__(self, camera):
+class CameraResource(Resource):
+    def __init__(self, camera, image_mapper):
         self._camera = camera
+        self._image_mapper = image_mapper
 
     def get(self):
-        frame = self._camera.capture()
+        frame, is_success = self._camera.capture()
 
-        if not frame:
+        if not is_success:
             return
 
         # Encode frame as JPEG (or use '.png')
-        success, encoded_image = cv2.imencode(".png", frame)
+        ret, buffer = cv2.imencode(".png", frame)
 
-        if not success:
+        if not ret:
             return
 
-        image_bytes = encoded_image.tobytes()
-        print(f"Image converted to bytes, size: {len(image_bytes)} bytes")
+        # Convert to base64
+        image_base64 = base64.b64encode(buffer).decode("utf-8")
 
-        return image_bytes
+        return self._image_mapper.map_to_image_json(image_base64)
