@@ -15,7 +15,7 @@ function setName(value: string) {
 function onCaptureButtonClicked() {
   CameraService.captureImage()
     .then((value: Response<ImageDto>) => {
-      console.log(value.data?.image);
+      if (value.data) session.imageBase64 = `data:image/png;base64,${value.data.image}`;
     })
     .catch((err) => {
       console.log(err);
@@ -29,5 +29,6 @@ function onCaptureButtonClicked() {
     <n-input v-model:value="newName" placeholder="Enter your name" />
     <n-button type="primary" @click="setName(newName)">Update Name</n-button>
     <n-button type="primary" @click="onCaptureButtonClicked">Capture</n-button>
+    <n-image v-if="session.imageBase64" :src="session.imageBase64" alt="Base64 Image" width="200" />
   </n-flex>
 </template>
