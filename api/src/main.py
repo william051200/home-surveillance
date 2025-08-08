@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 
 from mappers import ImageMapper
@@ -7,6 +8,8 @@ from utils import Camera
 
 app = Flask(__name__)
 api = Api(app)
+
+CORS(app)
 
 camera = Camera()
 
