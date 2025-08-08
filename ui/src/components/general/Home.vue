@@ -15,7 +15,7 @@ function setName(value: string) {
 function onCaptureButtonClicked() {
   CameraService.captureImage()
     .then((value: Response<ImageDto>) => {
-      if (value.data) session.imageBase64 = `data:image/png;base64,${value.data.image}`;
+      if (value.data) session.imageBase64 = `data:image/png;base64,${value.data.image_base64}`;
     })
     .catch((err) => {
       console.log(err);

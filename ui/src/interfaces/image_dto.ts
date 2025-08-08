@@ -1,3 +1,3 @@
 export interface ImageDto {
-  image: string;
+  image_base64: string;
 }
