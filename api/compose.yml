@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  camera-flask-api:
+    build: .
+    image: william-home-surveillance-camera:latest
+    container_name: camera
+    ports:
+      - "5000:5000"
+    privileged: true
