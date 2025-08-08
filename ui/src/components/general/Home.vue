@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useSessionStore } from "@/stores";
+import type { ImageDto } from "@/interfaces";
+import type { Response } from "@/models";
 import { CameraService } from "@/services";
+import { useSessionStore } from "@/stores";
 
 const session = useSessionStore();
 const newName = ref("");
@@ -12,8 +14,8 @@ function setName(value: string) {
 
 function onCaptureButtonClicked() {
   CameraService.captureImage()
-    .then((value) => {
-      console.log(value);
+    .then((value: Response<ImageDto>) => {
+      console.log(value.data?.image);
     })
     .catch((err) => {
       console.log(err);
