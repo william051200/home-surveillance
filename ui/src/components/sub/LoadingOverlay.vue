@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { useLoadingStore } from "@/stores";
 
   const { visible } = useLoadingStore();
