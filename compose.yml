@@ -1,0 +1,40 @@
+version: "3.9"
+
+networks:
+  hs-network:
+
+services:
+  hs-camera:
+    build: ./camera
+    image: home-surveillance-camera:latest
+    container_name: hs-camera
+    expose:
+      - "5000" # internal only, no need to publish to host
+    privileged: true
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - hs-network
+
+  hs-ui:
+    build: ./ui
+    image: home-surveillance-ui:latest
+    container_name: hs-ui
+    expose:
+      - "5173" # internal only
+    restart: unless-stopped
+    networks:
+      - hs-network
+
+  hs-proxy:
+    image: nginx:latest
+    container_name: hs-proxy
+    ports:
+      - "80:80" # Expose to Raspberry Pi's host
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - hs-ui
+      - hs-camera
+    networks:
+      - hs-network

@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  camera-flask-api:
+  hs-camera:
     build: .
-    image: william-home-surveillance-camera:latest
-    container_name: camera
+    image: home-surveillance-camera:latest
+    container_name: hs-camera
     ports:
       - "5000:5000"
     privileged: true

@@ -3,7 +3,7 @@ import type { Response } from "@/models";
 import axios from "axios";
 
 export class CameraService {
-  private static baseUrl = "http://rpiwilliam001:5000/api/capture";
+  private static baseUrl = "/api/capture";
 
   static captureImage(): Promise<Response<ImageDto>> {
     console.log("Capturing image.");
